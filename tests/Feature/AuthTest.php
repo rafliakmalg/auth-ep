@@ -30,6 +30,11 @@ class AuthTest extends TestCase
         $this->withToken($user->issueToken())->getJson('/api/auth/me')->assertUnauthorized();
     }
 
+    public function test_guest_without_json_accept_header_gets_401_instead_of_a_server_error(): void
+    {
+        $this->get('/api/auth/me')->assertUnauthorized();
+    }
+
     public function test_login_rejects_inactive_user(): void
     {
         User::factory()->create([
